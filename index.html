@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<title>UzNews2026</title>
+<style>
+body{margin:0;font-family:Arial,sans-serif;background:#f2f2f2}
+header{background:#005bbb;color:#fff;padding:15px 20px;display:flex;justify-content:space-between;flex-wrap:wrap}
+nav a{color:#fff;margin-left:15px;cursor:pointer;text-decoration:none;font-weight:bold}
+nav a.active{text-decoration:underline}
+main{max-width:1200px;margin:20px auto;padding:10px}
+.news{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px}
+.card{background:#fff;border-radius:6px;overflow:hidden;box-shadow:0 2px 6px rgba(0,0,0,.15);cursor:pointer}
+.card img{width:100%;height:170px;object-fit:cover}
+.card h3{padding:10px;font-size:18px}
+.popup{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.7);display:none;justify-content:center;align-items:center}
+.popup-content{background:#fff;width:80%;max-height:90%;overflow:auto;padding:20px;border-radius:8px}
+.close{float:right;cursor:pointer;font-size:20px;color:red}
+</style>
+</head>
+<body>
+
+<header>
+  <h2>UzNews2026</h2>
+  <nav>
+    <a class="tab active" onclick="filterNews('all')">Bosh sahifa</a>
+    <a class="tab" onclick="filterNews('football')">Fudbol</a>
+    <a class="tab" onclick="filterNews('sport')">Sport</a>
+    <a class="tab" onclick="filterNews('dunyo')">Dunyo</a>
+    <a class="tab" onclick="filterNews('tech')">Texnologiya</a>
+    <a class="tab" onclick="filterNews('culture')">Madaniyat</a>
+  </nav>
+</header>
+
+<main>
+  <div id="news" class="news"></div>
+</main>
+
+<div id="popup" class="popup">
+  <div class="popup-content">
+    <span class="close" onclick="closePopup()">✖</span>
+    <div id="popupData"></div>
+  </div>
+</div>
+
+<script>
+// ===== HAQIQIY MATN VA RASM BILAN YANGILIKLAR =====
+const newsData = [
+  {
+    category:"football",
+    title:"Manchester City Manchester Unitedga 0:2 hisobida mag‘lub bo‘ldi",
+    img:"https://images.unsplash.com/photo-1517927033932-b3d18e61fb3a",
+    content:`
+    <h2>Manchester City 0 – 2 Manchester United</h2>
+    <p><b>Sana:</b> 2026-01-20</p>
+    <img src="https://images.unsplash.com/photo-1517927033932-b3d18e61fb3a" style="width:100%;border-radius:6px">
+    <p>O‘yin boshlandi. Manchester United 17-daqiqada Bruno Fernandes zarbasi bilan hisobni ochdi.</p>
+    <p>32-daqiqada City tezkor hujum uyushtirdi, ammo darvozabon Onana ajoyib seyv qildi.</p>
+    <p>Ikkinchi bo‘limda, 55-daqiqada Rashford ikkinchi golni urdi. City ko‘plab hujumlar uyushtirdi, ammo gol ura olmadi.</p>
+    <p>Statistika:</p>
+    <ul>
+      <li>Zarba: 18 – 9</li>
+      <li>Burchak: 7 – 4</li>
+      <li>To‘p nazorati: 62% – 38%</li>
+    </ul>
+    <p>Batafsil sharh: o‘yin tahlili, o‘yinchilar bahosi, taktika va hujumlar bilan tanishish mumkin.</p>
+    `
+  },
+  {
+    category:"sport",
+    title:"O‘zbekiston sportchilari jahon musobaqalarida muvaffaqiyat qozondi",
+    img:"https://images.unsplash.com/photo-1505842465776-3d43c9b0e0e0",
+    content:`<h2>O‘zbekiston sportchilari muvaffaqiyatlari</h2>
+    <p><b>Sana:</b> 2026-01-19</p>
+    <img src="https://images.unsplash.com/photo-1505842465776-3d43c9b0e0e0" style="width:100%;border-radius:6px">
+    <p>O‘zbekiston sportchilari so‘nggi musobaqalarda katta natijalarga erishdi...</p>
+    <p>Batafsil: medal statistikasi, ishtirokchilar, o‘yin natijalari, sharhlar...</p>`
+  },
+  {
+    category:"tech",
+    title:"Texnologiya olamida yangi yangiliklar 2026",
+    img:"https://images.unsplash.com/photo-1518779578993-ec3579fee39f",
+    content:`<h2>Texnologiya yangiliklari 2026</h2>
+    <p><b>Sana:</b> 2026-01-18</p>
+    <img src="https://images.unsplash.com/photo-1518779578993-ec3579fee39f" style="width:100%;border-radius:6px">
+    <p>2026 yilda sun'iy intellekt, robototexnika va kosmik texnologiyalar sohalarida yutuqlar kuzatildi...</p>
+    <p>Batafsil: yangi ixtirolar, startaplar va loyiha sharhlari...</p>`
+  }
+];
+
+// ===== CHIQARISH =====
+const container=document.getElementById("news");
+
+function render(data){
+ container.innerHTML="";
+ data.forEach(n=>{
+  const d=document.createElement("div");
+  d.className="card";
+  d.innerHTML=`<img src="${n.img}"><h3>${n.title}</h3>`;
+  d.onclick=()=>openPopup(n);
+  container.appendChild(d);
+ });
+}
+render(newsData);
+
+function filterNews(cat){
+ document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
+ event.target.classList.add("active");
+ if(cat==="all") render(newsData);
+ else render(newsData.filter(n=>n.category===cat));
+}
+
+function openPopup(n){
+ document.getElementById("popupData").innerHTML=n.content;
+ document.getElementById("popup").style.display="flex";
+}
+function closePopup(){
+ document.getElementById("popup").style.display="none";
+}
+</script>
+
+</body>
+</html>
